@@ -1,1 +1,1 @@
-This is a dataset-specific file that does not exist in the template repo.
+This is a dataset-specific file. It does not exist in the template repo.

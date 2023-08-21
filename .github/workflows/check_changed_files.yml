@@ -11,6 +11,11 @@ jobs:
 
         runs-on: ubuntu-latest
 
+        env:
+            TEMPLATE_REPO: neurodatascience/testpoppy
+            PATH_CURRENT_REPO: repo_to_check
+            PATH_TEMPLATE_REPO: template_repo
+
         if: github.repository_owner == 'neurodatascience' && github.event.repository.name != 'testpoppy'
 
         steps:
@@ -19,22 +24,22 @@ jobs:
             uses: actions/checkout@v3
             with:
                 fetch-depth: 0
-                path: repo_to_check
+                path: ${{ env.PATH_CURRENT_REPO }}
 
           - name: Checkout template repository
             uses: actions/checkout@v3
             with:
                 repository: neurodatascience/testpoppy
                 ref: main
-                path: template_repo
+                path: ${{ env.PATH_TEMPLATE_REPO }}
 
           - name: Check changed files
             run: |
-                CHANGED_FILES=$(cd repo_to_check; git diff-tree --no-commit-id --name-only -r ${{ github.event.pull_request.head.sha }} ${{ github.event.pull_request.base.sha }})
+                CHANGED_FILES=$(cd ${PATH_CURRENT_REPO}; git diff-tree --no-commit-id --name-only -r ${{ github.event.pull_request.head.sha }} ${{ github.event.pull_request.base.sha }})
                 echo -e "Checking changed files:\n${CHANGED_FILES}"
                 COUNT="0"
                 for FILE in ${CHANGED_FILES}; do
-                    if [ -f "template_repo/${FILE}" ]; then
+                    if [ -f "${PATH_TEMPLATE_REPO}/${FILE}" ]; then
                         echo "::error::File exists in the template repository: ${FILE}"
                         COUNT=$((COUNT+1))
                     fi

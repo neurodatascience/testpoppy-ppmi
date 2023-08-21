@@ -29,6 +29,7 @@ jobs:
             uses: actions/checkout@v3
             with:
                 repository: neurodatascience/testpoppy
+                ref: main
                 path: template_repo
 
           - name: Check if changed files exist in the template repository

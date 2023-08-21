@@ -21,11 +21,6 @@ jobs:
                 fetch-depth: 0
                 path: repo_to_check
 
-          - name: Get changed files
-            run: |
-                CHANGED_FILES=$(cd repo_to_check; git diff-tree --no-commit-id --name-only -r ${{ github.event.pull_request.head.sha }} ${{ github.event.pull_request.base.sha }})
-                echo "Changed files: ${CHANGED_FILES}"
-
           - name: Checkout template repository
             uses: actions/checkout@v3
             with:
@@ -33,9 +28,11 @@ jobs:
                 ref: main
                 path: template_repo
 
-          - name: Check if changed files exist in the template repository
+          - name: Check changed files
             run: |
-                COUNT=0
+                CHANGED_FILES=$(cd repo_to_check; git diff-tree --no-commit-id --name-only -r ${{ github.event.pull_request.head.sha }} ${{ github.event.pull_request.base.sha }})
+                echo "Changed files: ${CHANGED_FILES}"
+                COUNT="0"
                 echo "Changed files: ${CHANGED_FILES}"
                 for FILE in ${CHANGED_FILES}; do
                     if [ -f "template_repo/${FILE}" ]; then

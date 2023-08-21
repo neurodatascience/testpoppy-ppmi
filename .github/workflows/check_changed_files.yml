@@ -31,9 +31,8 @@ jobs:
           - name: Check changed files
             run: |
                 CHANGED_FILES=$(cd repo_to_check; git diff-tree --no-commit-id --name-only -r ${{ github.event.pull_request.head.sha }} ${{ github.event.pull_request.base.sha }})
-                echo "Changed files: ${CHANGED_FILES}"
+                echo -e "Checking changed files:\n${CHANGED_FILES}"
                 COUNT="0"
-                echo "Changed files: ${CHANGED_FILES}"
                 for FILE in ${CHANGED_FILES}; do
                     if [ -f "template_repo/${FILE}" ]; then
                         echo "::error::File exists in the template repository: ${FILE}"

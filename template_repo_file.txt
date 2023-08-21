@@ -1,2 +1,3 @@
 This file exists on the template repo. It should not be modified in any downstream fork.
 Modifying this file from the template repo.
+Modifying this file from the PPMI repo (not allowed).

@@ -16,7 +16,7 @@ jobs:
             PATH_CURRENT_REPO: repo_to_check
             PATH_TEMPLATE_REPO: template_repo
 
-        if: github.repository_owner == 'neurodatascience' && github.event.repository.name != 'testpoppy'
+        if: github.repository_owner == 'neurodatascience' && github.event.repository.name != 'testpoppy'  && github.head_ref != 'main-upstream'
 
         steps:
 
@@ -40,7 +40,7 @@ jobs:
                 COUNT="0"
                 for FILE in ${CHANGED_FILES}; do
                     if [ -f "${PATH_TEMPLATE_REPO}/${FILE}" ]; then
-                        echo "::error::File exists in the template repository: ${FILE}"
+                        echo "::error file=${FILE}::File exists in the template repository: ${FILE}"
                         COUNT=$((COUNT+1))
                     fi
                 done
